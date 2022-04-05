@@ -7,11 +7,15 @@ use App\Exports\TodoExport;
 use App\Imports\TodoImport;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Resources\Api\TodoResource;
+use App\Http\Requests\ImportedExcelRequest;
 use App\Http\Requests\Api\Todo\StoreAndUpdateRequest;
+use App\Models\ImportReport;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 
@@ -69,12 +73,16 @@ class ToDoController extends Controller
         return TodoResource::make($todo);
     }
 
-    public function import(Request $request)
+    public function import(ImportedExcelRequest $request)
     {
 
         $file = $request->file('file');
-
+    
         Excel::import(new TodoImport, $file);
+
+        ImportReport::create([
+            'filename' => $file->getClientOriginalName(),
+        ]);
 
         return view('app');
     }
@@ -82,8 +90,26 @@ class ToDoController extends Controller
     public function export(Request $request)
     {
         $status = $request->export;
-        //dd($status);
 
         return (new TodoExport($request->export))->download('todos.xlsx');
     }
+
+    public function pdf(Request $request)
+    {
+        $date1 = $request->get('date1');
+        $date2 = $request->get('date2');
+        
+        $query = DB::table('todos')
+                ->whereBetween('updated_at', [$date1, $date2])
+                ->get();
+        
+        $data = $query->toArray();
+
+        $pdf = PDF::loadView('pdfgenerate', ['data' => $data]);
+
+        //return view('pdfgenerate')->with(['data' => $data]);
+
+        return $pdf->download('busqueda.pdf');
+    }
+
 }

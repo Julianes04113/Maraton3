@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class TodoImport implements ToModel, WithHeadingRow, WithValidation
+class TodoImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
@@ -19,8 +19,8 @@ class TodoImport implements ToModel, WithHeadingRow, WithValidation
             'status' => $row['status'],
         ]);
     }
-    public function rules(): array
+    /*public function rules(): array
     {
-        return TodoRules::toArray();
-    }
+       return TodoRules::toArray();
+    }*/
 }

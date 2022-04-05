@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Arrayable;
 
 class TodoStatus implements Arrayable
 {
-
 	public const PENDING='PENDING';
 	public const PROCESSING='PROCESSING';
 	public const FINISHED='FINISHED';
@@ -18,6 +17,6 @@ class TodoStatus implements Arrayable
 			self::PROCESSING,
 			self::FINISHED
 		];
-	} 
+	}
 
 }
