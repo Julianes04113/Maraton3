@@ -14,6 +14,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->enum('status',(new TodoStatus())->toArray())->default(TodoStatus::PENDING);
+            $table->unsignedBigInteger('import_id')->nullable();
+
+            $table->foreign('import_id')->references('id')->on('imports');
+
             $table->timestamps();
         });
     }

@@ -8,57 +8,83 @@
                 placeholder="ToDo Name"
             />
             <button @click="createTodo" class="btn btn-primary">Create</button>
-
         </div>
         <textarea
             class="rounded focus:border-gray-500 focus:ring-gray-500"
             v-model="description"
             cols="30"
             rows="2"
-            placeholder="Description">
-        </textarea>
+            placeholder="Description"
+        ></textarea>
 
-        <form id="import" method="POST" action="/import" accept-charset="utf-8" enctype="multipart/form-data">
-        <input type="hidden" name="_token" :value="token">
+        <form
+            id="import"
+            method="POST"
+            action="/import"
+            accept-charset="utf-8"
+            enctype="multipart/form-data"
+        >
+            <input type="hidden" name="_token" :value="token" />
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input class="rounded-md bg-gray-100" type="file" name="file" placeholder="file">
+                        <input
+                            class="rounded-md bg-gray-100"
+                            type="file"
+                            name="file"
+                            placeholder="file"
+                        />
                     </div>
-                </div>              
-                <div >
-                    <button type="submit" class="btn btn-primary btn-md w-100" id="file" form="import">Import</button>
                 </div>
-            </div>     
-        </form>
-
-    <div>
-        <form id="export" method="GET" action="/export" accept-charset="utf-8">
-        <input type="hidden" name="_token" :value="token">
-            <div class="row">
-            <select name="export" id="export">
-            <option value="PENDING">PENDING</option>
-            <option value="PROCESSING">PROCESSING</option>
-            <option value="FINISHED">FINISHED</option>
-            </select>
-                <div >
-                    <button type="submit" class="btn btn-primary btn-md w-100" id="file" form="export">Export</button>
-                </div>
-            </div>     
-        </form>
-
-        <form id="date" method="GET" action="/pdf" accept-charset="utf-8">
-        <input type="hidden" name="_token" :value="token">
-            <div class="row">
-                <input type="date" name="date1" id="date1">
-                <input type="date" name="date2" id="date2">
                 <div>
-                    <button type="submit" class="btn btn-primary btn-md w-100" id="date" form="date">Export to PDF</button>
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-md w-100"
+                        id="file"
+                        form="import"
+                    >Import</button>
                 </div>
-            </div>     
+            </div>
         </form>
-        <a href='/importReports' class="btn btn-primary"> View Imports </a> 
-    </div></div>
+
+        <div>
+            <form id="export" method="GET" action="/export" accept-charset="utf-8">
+                <input type="hidden" name="_token" :value="token" />
+                <div class="row">
+                    <select name="export" id="export">
+                        <option value="PENDING">PENDING</option>
+                        <option value="PROCESSING">PROCESSING</option>
+                        <option value="FINISHED">FINISHED</option>
+                    </select>
+                    <div>
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-md w-100"
+                            id="file"
+                            form="export"
+                        >Export</button>
+                    </div>
+                </div>
+            </form>
+
+            <form id="date" method="GET" action="/pdf" accept-charset="utf-8">
+                <input type="hidden" name="_token" :value="token" />
+                <div class="row">
+                    <input type="date" name="date1" id="date1" />
+                    <input type="date" name="date2" id="date2" />
+                    <div>
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-md w-100"
+                            id="date"
+                            form="date"
+                        >Export to PDF</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <a href="/import" class="btn btn-success bg-yellow-500 text-center  mt-6">View Imports</a>
+    </div>
 </template>
 
 <script>
@@ -67,20 +93,20 @@ import { todoServices } from '../../../js/services/todoServices';
 import { actions } from '../../store';
 
 export default {
-  setup() {
-    const title = ref(null);
-    const description = ref(null);
+    setup() {
+        const title = ref(null);
+        const description = ref(null);
 
-    const token = document.querySelector('meta[name="csrf-token"]').content;
+        const token = document.querySelector('meta[name="csrf-token"]').content;
 
-    const createTodo = async () => {
-      await todoServices.create({ title: title.value, description: description.value });
-      actions.refreshToDos();
-      title.value = null;
-      description.value = null;
-    };
+        const createTodo = async () => {
+            await todoServices.create({ title: title.value, description: description.value });
+            actions.refreshToDos();
+            title.value = null;
+            description.value = null;
+        };
 
-    return { title, description, createTodo, token };
-  },
+        return { title, description, createTodo, token };
+    },
 };
 </script>
