@@ -81,8 +81,23 @@
                                         px-3
                                         lg:px-4
                                         ">
+                                        State
+                                    </th>
+                                    <th
+                                        class="
+                                        w-1/6
+                                        min-w-[160px]
+                                        text-lg
+                                        font-semibold
+                                        text-white
+                                        py-4
+                                        lg:py-7
+                                        px-3
+                                        lg:px-4
+                                        ">
                                         Description
                                     </th>
+
                                     <th
                                         class="
                                         w-1/6
@@ -128,6 +143,18 @@
                                             border-b border-[#E8E8E8]
                                             ">
                                             {{ $todo->title }}
+                                        </td>
+                                        <td
+                                            class="
+                                            text-center text-dark
+                                            font-medium
+                                            text-base
+                                            py-5
+                                            px-2
+                                            bg-white
+                                            border-b border-[#E8E8E8]
+                                            ">
+                                            {{ $todo->description }}
                                         </td>
                                         <td
                                             class="
