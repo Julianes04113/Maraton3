@@ -13,6 +13,7 @@ class Todo extends Model
         'title',
         'description',
         'status',
+        'import_id'
     ];
 
     public function user(): belongsTo
@@ -20,5 +21,9 @@ class Todo extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function import()
+    {
+        return $this->BelongsTo(ImportReport::class,'import_id','id');
+    }
 
 }

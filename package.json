@@ -7,12 +7,20 @@
         "prod": "npm run production",
         "production": "mix --production",
         "lint": "npx prettier --write .",
-        "lint:check": "npx prettier --check ."
+        "lint:check": "npx prettier --check .",
+        "commit": "git cz"
+    },
+    "config": {
+        "commitizen": {
+            "path": "node_modules/cz-git",
+            "useEmoji": true
+        }
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.4.0",
         "autoprefixer": "^10.4.2",
         "axios": "^0.25",
+        "cz-git": "^1.2.2",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.4.7",

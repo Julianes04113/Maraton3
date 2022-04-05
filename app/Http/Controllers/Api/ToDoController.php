@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Import;
 use App\Models\Todo;
 use App\Exports\TodoExport;
 use App\Imports\TodoImport;
@@ -76,15 +77,21 @@ class ToDoController extends Controller
     public function import(ImportedExcelRequest $request)
     {
 
-        $file = $request->file('file');
-    
-        Excel::import(new TodoImport, $file);
+        DB::transaction(function () use($request) {
 
-        ImportReport::create([
-            'filename' => $file->getClientOriginalName(),
-        ]);
+            $file = $request->file('file');
+            $modelImport=Import::create();
+            $import = new TodoImport($modelImport);
+            Excel::import($import, $file);
+            $modelImport->filename=$file->getClientOriginalName();
+            $modelImport->row_quantity=$import->getRowCount();
+            $modelImport->save();
+//            dd('si funcione XD');
+        },3);
 
-        return view('app');
+
+//        return view('app');
+        return redirect('/app');
     }
 
     public function export(Request $request)
@@ -98,11 +105,11 @@ class ToDoController extends Controller
     {
         $date1 = $request->get('date1');
         $date2 = $request->get('date2');
-        
+
         $query = DB::table('todos')
                 ->whereBetween('updated_at', [$date1, $date2])
                 ->get();
-        
+
         $data = $query->toArray();
 
         $pdf = PDF::loadView('pdfgenerate', ['data' => $data]);
@@ -111,5 +118,8 @@ class ToDoController extends Controller
 
         return $pdf->download('busqueda.pdf');
     }
-
+    public function getTodosByReport(ImportReport $importReport)
+    {
+        return $importReport->todos;
+    }
 }

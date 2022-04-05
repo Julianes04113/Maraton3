@@ -14,8 +14,23 @@
 <body>
 
     <!-- component -->
+    <section class="bg-white container mt-6 ">
+        <ul>
+            <li>
+                Id : {{$import->id}}
+            </li>
+            <li>
+                File : {{$import->filename}}
+            </li>
+            <li>
+                quantity : {{$import->row_quantity}}
+            </li>
+            <li>
+                Imported at : {{$import->created_at}}
+            </li>
 
-
+        </ul>
+    </section>
     <!-- ====== Table Section Start -->
     <section class="bg-white py-20 lg:py-[120px]">
         <div class="container">
@@ -52,7 +67,7 @@
                                         px-3
                                         lg:px-4
                                         ">
-                                        Origin file name
+                                        Title
                                     </th>
                                     <th
                                         class="
@@ -66,7 +81,7 @@
                                         px-3
                                         lg:px-4
                                         ">
-                                        Quantity
+                                        State
                                     </th>
                                     <th
                                         class="
@@ -80,8 +95,9 @@
                                         px-3
                                         lg:px-4
                                         ">
-                                        Import Date
+                                        Description
                                     </th>
+
                                     <th
                                         class="
                                         w-1/6
@@ -94,13 +110,14 @@
                                         px-3
                                         lg:px-4
                                         ">
-                                        View Details
+                                        Creation date
                                     </th>
+
 
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($imports as $import)
+                                @forelse($todos as $todo)
 
                                     <tr>
                                         <td
@@ -113,7 +130,7 @@
                                             bg-[#F3F6FF]
                                             border-b border-l border-[#E8E8E8]
                                             ">
-                                            {{ $import->id }}
+                                            {{ $todo->id }}
                                         </td>
                                         <td
                                             class="
@@ -125,7 +142,19 @@
                                             bg-white
                                             border-b border-[#E8E8E8]
                                             ">
-                                            {{ $import->filename }}
+                                            {{ $todo->title }}
+                                        </td>
+                                        <td
+                                            class="
+                                            text-center text-dark
+                                            font-medium
+                                            text-base
+                                            py-5
+                                            px-2
+                                            bg-white
+                                            border-b border-[#E8E8E8]
+                                            ">
+                                            {{ $todo->description }}
                                         </td>
                                         <td
                                             class="
@@ -137,7 +166,7 @@
                                             bg-[#F3F6FF]
                                             border-b border-[#E8E8E8]
                                             ">
-                                            {{ $import->row_quantity }}
+                                            {{ $todo->status }}
                                         </td>
                                         <td
                                             class="
@@ -149,7 +178,7 @@
                                             bg-white
                                             border-b border-[#E8E8E8]
                                             ">
-                                        {{ $import->created_at}}
+                                        {{ $todo->created_at}}
                                         </td>
                                         <td
                                             class="
@@ -161,23 +190,7 @@
                                             bg-white
                                             border-b border-[#E8E8E8]
                                             ">
-
-                                            <a href="{{route('import.show',$import->id)}}" class="
-                                            border-2
-                                             border-blue-500
-                                             rounded-lg
-                                             font-bold
-                                             text-blue-500
-                                             px-4
-                                             py-3
-                                             transition
-                                             duration-300
-                                             ease-in-out
-                                             hover:bg-blue-500
-                                             hover:text-white
-                                             mr-6">
-                                                Details
-                                            </a>
+                                        <a href=""></a>
                                         </td>
                                     </tr>
                                 @empty

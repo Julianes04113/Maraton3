@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('import_reports', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('filename');
+            $table->string('row_quantity');
+            $table->timestamps();
         });
     }
     public function down()
